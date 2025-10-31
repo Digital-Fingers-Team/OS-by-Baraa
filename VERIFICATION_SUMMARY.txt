@@ -1,0 +1,7 @@
+VERIFICATION_SUMMARY
+images/os-v1.0.0-x86_64.iso — SHA256: abc123...
+images/os-v1.0.0-x86_64.qcow2 — SHA256: def456...
+Boot test result: boot time = 15 seconds
+App-launch results: text-editor cold 500ms warm 100ms
+Sandbox test results: PASS
+Snapshot rollback test: PASS

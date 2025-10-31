@@ -1,0 +1,29 @@
+name: Build BlackboxOS
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install deps
+      run: sudo apt update && sudo apt install -y build-essential wget git bc flex bison libssl-dev qemu-system-x86 mkisofs meson ninja-build
+    - name: Build
+      run: ./build/build-all.sh
+    - name: Run benchmarks
+      run: |
+        ./benchmarks/boot-time.sh > boot_results.json
+        ./benchmarks/app-launch.sh > app_results.json
+        ./benchmarks/memory-footprint.sh > mem_results.json
+    - name: Run security tests
+      run: ./security/sandbox_test.sh
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: blackboxos-artifacts
+        path: |
+          images/
+          boot_results.json
+          app_results.json
+          mem_results.json

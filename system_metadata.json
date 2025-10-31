@@ -1,0 +1,24 @@
+{
+    "name": "BlackboxOS",
+    "version": "0.1.0",
+    "architecture": [
+        "x86_64",
+        "arm64"
+    ],
+    "kernel": "Linux 5.15+ with PREEMPT_RT",
+    "build_commands": {
+        "kernel": "./build/build.sh",
+        "vm": "./build/create_vm.sh"
+    },
+    "run_in_vm": "qemu-system-x86_64 -kernel kernel.bzImage -initrd rootfs.cpio -append 'console=ttyS0'",
+    "assumptions": [
+        "Linux host for builds",
+        "GTK for UI apps",
+        "QEMU for testing"
+    ],
+    "future_work": [
+        "Full compositor implementation (high complexity, 3-6 months)",
+        "Package manager integration (medium, 2-3 months)",
+        "Security audits (high priority, 1-2 months)"
+    ]
+}

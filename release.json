@@ -1,0 +1,9 @@
+{
+    "version": "1.0.0",
+    "build_date": "2023-10-01",
+    "checksums": {
+        "iso": "abc123",
+        "qcow2": "def456"
+    },
+    "qemu_boot": "qemu-system-x86_64 -m 2048 -drive file=images/os-v1.0.0-x86_64.qcow2,format=qcow2"
+}
