@@ -18,7 +18,17 @@ void load_file(const char *filename)
     char buffer[MAX_LINE_LEN];
     while (fgets(buffer, sizeof(buffer), file) && line_count < MAX_LINES)
     {
-        strcpy(lines[line_count++], buffer);
+        // Ensure null termination and bounds checking
+        buffer[MAX_LINE_LEN - 1] = '\0';
+        size_t len = strlen(buffer);
+        if (len > 0 && buffer[len - 1] == '\n')
+        {
+            buffer[len - 1] = '\0'; // Remove newline
+        }
+        if (len < MAX_LINE_LEN)
+        {
+            strcpy(lines[line_count++], buffer);
+        }
     }
     fclose(file);
 }
@@ -39,7 +49,17 @@ int main(int argc, char **argv)
 {
     char filename[256] = "untitled.txt";
     if (argc > 1)
-        strcpy(filename, argv[1]);
+    {
+        if (strlen(argv[1]) < sizeof(filename))
+        {
+            strcpy(filename, argv[1]);
+        }
+        else
+        {
+            printf("Filename too long\n");
+            return 1;
+        }
+    }
 
     load_file(filename);
 
@@ -53,9 +73,16 @@ int main(int argc, char **argv)
         printf("> ");
         if (!fgets(input, sizeof(input), stdin))
             break;
-        if (input[0] == 'q')
+        // Ensure null termination
+        input[MAX_LINE_LEN - 1] = '\0';
+        size_t len = strlen(input);
+        if (len > 0 && input[len - 1] == '\n')
+        {
+            input[len - 1] = '\0';
+        }
+        if (strcmp(input, "q") == 0)
             break;
-        if (input[0] == 's')
+        if (strcmp(input, "s") == 0)
         {
             save_file(filename);
             printf("Saved to %s\n", filename);
